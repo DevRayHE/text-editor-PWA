@@ -13,7 +13,7 @@ const initdb = async () =>
   });
 
 // Logic to a method that accepts some content and adds it to the database
-export const putDb = async (content) => {
+export const putDb = async (id, content) => {
   try {
     console.log('Saving content to the database.');
 
@@ -26,12 +26,12 @@ export const putDb = async (content) => {
     // Open up the object store.
     const store = tx.objectStore('jate');
 
-    // Use the .add() method on the store and pass in content.
-    const request = store.add({ content: content });
+    // Use the .put() method on the store and pass in content.
+    const request = store.put({ id, content: content });
 
     // Get confirmation of the request.
     const result = await request;
-    console.log('data saved to the database', result);
+    console.log('data updated on the database', result);
 
   } catch (err) {
     console.error(`putDb not successful due to error: ${err}`);
@@ -43,22 +43,19 @@ export const getDb = async () => {
   try {
     console.log('Retrieving content from database.');
 
-    // Create connection
     const jateDb = await openDB('jate', 1);
 
-    // Create a new transaction and specify the database with data privileges.
     const tx = jateDb.transaction('jate', 'readonly');
 
-    // Open up the object store.
     const store = tx.objectStore('jate');
 
-    // Use the .getAll() method to get all data in the database.
     const request = store.getAll();
 
-    // Get confirmation of the request.
     const result = await request;
     console.log('Results:', result);
-    return result;
+    // console.log('Result type is:', typeOf(result));
+    valueString = result.toString();
+    return valueString;
   } catch (err) {
     console.error(`getDb not successful due to error: ${err}`);
   }
