@@ -34,7 +34,7 @@ export const putDb = async (id, content) => {
     console.log('data updated on the database', result);
 
   } catch (err) {
-    console.error(`putDb not successful due to error: ${err}`);
+    console.log(`putDb not successful due to error: ${err}`);
   }
 };
 
@@ -52,12 +52,16 @@ export const getDb = async () => {
     const request = store.getAll();
 
     const result = await request;
-    console.log('Results:', result);
-    // console.log('Result type is:', typeOf(result));
-    valueString = result.toString();
-    return valueString;
+
+    console.log('result is:' + result);
+
+    if (result) {
+      valueString = result.toString();
+      return valueString;
+    }
+  
   } catch (err) {
-    console.error(`getDb not successful due to error: ${err}`);
+    console.log(`getDb not successful due to error: ${err}`);
   }
 };
 
